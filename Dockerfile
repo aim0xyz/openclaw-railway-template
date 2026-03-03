@@ -13,6 +13,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g openclaw@2026.3.2
+RUN npx --yes playwright install --with-deps chromium
 
 WORKDIR /app
 
@@ -20,6 +21,7 @@ COPY package.json pnpm-lock.yaml ./
 RUN corepack enable && pnpm install --frozen-lockfile --prod
 
 COPY src ./src
+COPY skills ./skills
 COPY --chmod=755 entrypoint.sh ./entrypoint.sh
 
 RUN useradd -m -s /bin/bash openclaw \
